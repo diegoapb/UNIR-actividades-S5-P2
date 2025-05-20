@@ -1,0 +1,107 @@
+# Tercer Ejercicio: Espirales de Arquímedes
+
+## Descripción del Problema
+
+Observa el siguiente [video](https://youtu.be/yNgqI4XPUZc) en donde se explica el funcionamiento de un compresor. Luego realiza la doble representación de las espirales de Arquímedes usando un entorno de programación de tu preferencia (Sugerencia: Google Colab). Debes incorporar un recorte de pantalla del código ejecutado, así como de las gráficas resultantes usando las ecuaciones en coordenadas polares.
+
+## Introducción a las Espirales de Arquímedes
+
+Una espiral de Arquímedes es una espiral que fue descrita por Arquímedes. Se define como el locus de puntos correspondiente a las ubicaciones a lo largo del tiempo de un punto que se aleja de un punto central fijo con una velocidad constante a lo largo de una línea que gira con una velocidad angular constante.
+
+En coordenadas polares $(r, \theta)$, la ecuación de una espiral de Arquímedes es:
+$ r = a \cdot \theta $
+donde:
+-   `r` es la distancia radial desde el origen.
+-   `a` es una constante que determina la distancia entre los brazos sucesivos de la espiral.
+-   `\theta` es el ángulo polar (en radianes).
+
+Para una "doble representación" o una espiral de dos brazos, comúnmente se trazan dos espirales entrelazadas. Esto se puede lograr trazando $r = a\theta$ y una segunda espiral desfasada, por ejemplo, $r = a(\theta + \pi)$, o considerando la rama negativa $r = -a\theta$ para el mismo rango de $\theta > 0$.
+
+## Código Python para Generar las Espirales
+
+A continuación, se presenta un script de Python utilizando `matplotlib` y `numpy` para generar y visualizar una doble representación de espirales de Arquímedes.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Configuración para mejorar la estética de los gráficos
+plt.style.use('seaborn-v0_8-darkgrid') # Estilo de gráfico
+plt.rcParams['figure.figsize'] = (10, 10) # Tamaño de la figura
+plt.rcParams['lines.linewidth'] = 2 # Grosor de línea
+
+# Parámetros para las espirales de Arquímedes
+# La ecuación polar de una espiral de Arquímedes es r = a * theta
+# Donde 'r' es la distancia desde el origen, 'a' es una constante que afecta la distancia entre brazos,
+# y 'theta' es el ángulo.
+
+# Parámetros para la primera espiral
+a1 = 0.5  # Constante 'a' para la primera espiral
+theta1_max_revolutions = 4  # Número de revoluciones completas (2*pi por revolución)
+theta1 = np.linspace(0, theta1_max_revolutions * 2 * np.pi, 500)  # Rango de ángulos para la primera espiral (500 puntos para suavidad)
+r1 = a1 * theta1  # Radios para la primera espiral
+
+# Espiral 1 (positiva) en coordenadas cartesianas
+x1 = r1 * np.cos(theta1)
+y1 = r1 * np.sin(theta1)
+
+# Espiral 2 (negativa, para crear el efecto de doble espiral)
+# Esto es equivalente a r = a * (theta + pi) si se interpreta r siempre positivo,
+# o si r puede ser negativo, entonces r2 = -a1 * theta1.
+r2_neg = -a1 * theta1 # Usamos la misma 'a' y 'theta' pero con radio negativo
+x2 = r2_neg * np.cos(theta1) # x = (-a*theta) * cos(theta)
+y2 = r2_neg * np.sin(theta1) # y = (-a*theta) * sin(theta)
+
+# Crear la figura y los ejes para el gráfico
+fig, ax = plt.subplots()
+
+# Graficar la primera espiral
+ax.plot(x1, y1, label=r'Espiral 1: $r = a\theta$', color='dodgerblue')
+
+# Graficar la segunda espiral (que forma la doble espiral)
+ax.plot(x2, y2, label=r'Espiral 2: $r = -a\theta$ (simétrica)', color='orangered')
+
+# Configuración del gráfico
+ax.set_aspect('equal', adjustable='box') # Asegura que los círculos se vean como círculos
+ax.set_title('Doble Representación de Espirales de Arquímedes', fontsize=16)
+ax.set_xlabel('X', fontsize=12)
+ax.set_ylabel('Y', fontsize=12)
+ax.legend(fontsize=10)
+ax.grid(True) # Añade una rejilla
+
+# Mostrar el gráfico
+plt.show()
+
+print(f"Parámetros usados:")
+print(f"  Constante 'a': {a1}")
+print(f"  Revoluciones máximas para theta: {theta1_max_revolutions}")
+print(f"  Rango de theta: 0 a {theta1_max_revolutions * 2 * np.pi:.2f} radianes")
+
+```
+
+## Explicación de la "Doble Representación"
+
+La "doble representación" de una espiral de Arquímedes a menudo se refiere a mostrar las dos ramas que se generan cuando $\theta$ recorre valores positivos y negativos, o, de forma equivalente, cuando se considera $r = a\theta$ y $r = -a\theta$ para $\theta$ positivo. Esto crea una figura con simetría central.
+
+Si graficamos $r = a\theta$, obtenemos una espiral.
+Si graficamos $r = a(\theta+\pi)$, obtenemos otra espiral que está rotada 180 grados. Juntas, forman una espiral de dos brazos.
+
+La implementación $r = a\theta$ y $r = -a\theta$ (para el mismo rango de $\theta$ positivo) logra este efecto de dos brazos directamente:
+-   Para la primera rama: $x = (a\theta)\cos(\theta)$, $y = (a\theta)\sin(\theta)$
+-   Para la segunda rama: $x = (-a\theta)\cos(\theta)$, $y = (-a\theta)\sin(\theta)$
+
+Esto es matemáticamente equivalente a trazar la segunda rama como:
+$x = (a\theta)\cos(\theta+\pi)$, $y = (a\theta)\sin(\theta+\pi)$
+(ya que $\cos(\theta+\pi)=-\cos(\theta)$ y $\sin(\theta+\pi)=-\sin(\theta)$).
+
+## Recorte de Pantalla del Código Ejecutado
+
+_(Aquí se debe insertar la captura de pantalla del código Python ejecutándose, por ejemplo, en Google Colab)._
+
+## Gráfica Resultante
+
+_(Aquí se debe insertar la imagen de la gráfica generada por el script de Python)._
+
+## Conclusión del Ejercicio 3
+
+Las espirales de Arquímedes son curvas fascinantes que aparecen en diversos contextos naturales y de ingeniería, como en los compresores scroll mencionados en el video. Su representación mediante ecuaciones polares simplifica su descripción matemática. La "doble representación" permite visualizar la estructura completa de dos brazos de la espiral, que es crucial para entender cómo dos formas idénticas pueden encajar y rotar una respecto a la otra para comprimir un fluido, como se observa en los compresores. La programación, utilizando herramientas como Python con Matplotlib, facilita la visualización y exploración de estas formas geométricas complejas.
